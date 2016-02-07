@@ -41,7 +41,8 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8226
 TARGET_NO_BOOTLOADER := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.bootdevice=msm_sdcc.1 androidboot.hardware=qcom vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags
+BOARD_KERNEL_CMDLINE := androidboot.bootdevice=msm_sdcc.1 androidboot.hardware=qcom vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags androidboot.selinux=permissive
+BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
@@ -110,6 +111,7 @@ TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+BOARD_RECOVERY_SWIPE := true
 
 # Release tools
 TARGET_RELEASETOOLS_EXTENSIONS := $(VENDOR_PATH)
@@ -118,6 +120,27 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(VENDOR_PATH)
 -include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy
+
+# TWRP
+BOARD_HAS_NO_REAL_SDCARD := true
+DEVICE_RESOLUTION := 720x1280
+HAVE_SELINUX := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_IGNORE_MAJOR_AXIS_0 := true
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_L_CRYPTO := true
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+ifneq ($(filter peregrine thea titan,$(TARGET_DEVICE)),)
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard1"
+endif
+TW_NO_SCREEN_BLANK := true
+TW_NO_SCREEN_TIMEOUT := true
+TW_NO_USB_STORAGE := true
+TW_TARGET_USES_QCOM_BSP := true
+TW_THEME := portrait_hdpi # portrait_hdpi_hq for themed
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
